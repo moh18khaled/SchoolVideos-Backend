@@ -1,10 +1,11 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const userRoutes = require("./routes/userRoutes");
+const videoRoutes = require("./routes/videoRoutes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const AppError = require("./utils/AppError");
-const path = require("path");
 const rateLimit = require("express-rate-limit");
 const globalError = require("./middlewares/globalError");
 const helmet = require("helmet");
@@ -49,7 +50,7 @@ app.use(express.urlencoded({ extended: false }));
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 10000,
+  limit: 1000,
   standardHeaders: "draft-8",
   legacyHeaders: false,
 });
@@ -71,6 +72,9 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB:", err.message));
 
+  // Use API routes BEFORE serving frontend
+  app.use("/users", userRoutes); // Pluralized for consistency
+  app.use("/videos", videoRoutes);  
 
 // Default API Home Route
 app.get("/", (req, res) => {

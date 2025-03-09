@@ -3,22 +3,11 @@ const mongoose = require("mongoose");
 const videoSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
-    image: {
-      url: {
-        type: String,
-        required: true,
-      },
-      public_id: {
-        type: String,
-        required: true,
-      },
-    },
     video: {
       url: { type: String, required: true }, // Ensure every video has a URL
       public_id: { type: String, required: true },
     },
-    lovedCount: { type: Number, default: 0, min: 0 },  // Number of times added to lovedVideos
-
+    lovedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     grade: {
       type: [Number], // Array of numbers
       required: true,

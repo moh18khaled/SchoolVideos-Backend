@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema(
         message: "Please provide a valid email address.",
       },
     },
-    isVerified: { type: Boolean, default: false },
+    isVerified: { type: Boolean, default: true },
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       url: {
-        type: String,
+        type: String, 
         maxlength: [
           255,
           "Profile picture URL should be less than 256 characters.",
