@@ -39,7 +39,7 @@ exports.addVideo = async (req, res, next) => {
 // Get videos by grades
 exports.getVideosByGrade = async (req, res, next) => {
   // Fetch all videos, sorted by createdAt (descending)
-  const { grade } = req.body;
+  const { grade } = req.query;
 
   if (!grade) {
     return next(sendError(400, "gradeIsRequired"));

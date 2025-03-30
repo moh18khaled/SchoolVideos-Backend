@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema(
         message: "Please provide a valid email address.",
       },
     },
-    isVerified: { type: Boolean, default: true },
+    isVerified: { type: Boolean, default: false },
     role: {
       type: String,
       enum: ["user", "admin"],
