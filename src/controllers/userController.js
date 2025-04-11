@@ -148,6 +148,7 @@ exports.login = async (req, res, next) => {
         username: user.username,
         email: user.email,
         profilePicture: user.profilePicture,
+        role:user.role,
       },
     },
   });
@@ -271,7 +272,7 @@ exports.deleteAccount = async (req, res, next) => {
 
   const session = await mongoose.startSession();
   session.startTransaction();
-
+ 
   const public_id = user.profilePicture.public_id;
   const defaultPicturePublicId = process.env.DEFAULT_PROFILE_PICTURE_PUBLIC_ID;
 
@@ -283,8 +284,8 @@ exports.deleteAccount = async (req, res, next) => {
 
   // Get all loved videos and decrement their lovedCount
   await Video.updateMany(
-    { _id: { $in: user.lovedVideos } },
-    { $inc: { lovedCount: -1 } }, // Decrease lovedCount by 1
+    { lovedBy: user._id },
+    { $pull: { lovedBy: user._id } },
     { session }
   );
 
@@ -364,7 +365,7 @@ exports.contactSupport = async (req, res, next) => {
     `;
 
   await sendEmail(
-    "moh18.kh@gmail.com",
+    process.env.SUPPORT_EMAIL,
     `Support Request: ${subject}`,
     message,
     emailContent

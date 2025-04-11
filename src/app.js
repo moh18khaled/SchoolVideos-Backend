@@ -10,12 +10,13 @@ const rateLimit = require("express-rate-limit");
 const globalError = require("./middlewares/globalError");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const path = require("path");
 dotenv.config();
 
 const app = express();
  
 // Serve frontend only AFTER API routes
-//app.use(express.static(path.join(__dirname, "client", "dist")));
+app.use(express.static(path.join(__dirname, "client", "dist")));
 
 
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:5000",
   "http://localhost:5173", // Local development
+  "https://schoolvideos-backend-production.up.railway.app",
 ];
 
 app.use(
@@ -62,7 +64,11 @@ app.use(
     directives: {
       "default-src": ["'self'"],
       "img-src": ["*"], // Allows images from any source
-      "connect-src": ["'self'", "https://isharee-backend-production.up.railway.app"], // Allow backend API requests
+      "connect-src": ["'self'",  "http://localhost:5000",
+        "https://schoolvideos-backend-production.up.railway.app",
+        "https://api.cloudinary.com",
+      ], // Allow backend API requests
+      "frame-src": ["'self'", "https://res.cloudinary.com", "https://www.youtube.com"], // Allow Cloudinary and YouTube in iframes
     },
   })
 );
@@ -85,9 +91,9 @@ app.get("/", (req, res) => {
 // Global Error Handling
 app.use(globalError);
 
-/*app.get('*', (req, res) => {
+app.get('*', (req, res) => {
      res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});*/
+});
 
 // Handle Invalid API Routes
 app.all("*", (req, res, next) => {

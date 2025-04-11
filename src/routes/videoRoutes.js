@@ -13,7 +13,7 @@ router.post("/", verifyToken,validateRequiredFields("video"), authorizeRoles("ad
 
 // Get videos filtered by grade
 router.get("/", asyncHandler(videoController.getVideosByGrade));
-
+ 
 // Delete a video (Admin only)
 router.delete("/:id", verifyToken, authorizeRoles("admin"), asyncHandler(videoController.deleteVideo));
 router.patch("/:id", verifyToken, authorizeRoles("admin"), asyncHandler(videoController.updateVideo));

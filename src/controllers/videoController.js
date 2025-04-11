@@ -52,7 +52,7 @@ exports.getVideosByGrade = async (req, res, next) => {
   }
 
   // Find videos where the grade array contains the requested grade
-  const videos = await Video.find({ grade: { $in: [gradeNumber] } })
+  const videos = await Video.find({ grade: gradeNumber})
     .sort({ createdAt: -1 })
     .lean(); // Convert Mongoose documents to plain objects
 
@@ -63,7 +63,8 @@ exports.getVideosByGrade = async (req, res, next) => {
     });
   }
 
-  const filteredVideos = videos.map(({ video, title, lovedBy, grade }) => ({
+  const filteredVideos = videos.map(({ _id,video, title, lovedBy, grade }) => ({
+    id: _id,
     url: video.url, // Extract video URL
     title, // Extract title
     lovedByCount: lovedBy.length, // Count lovedBy array
@@ -233,7 +234,8 @@ exports.searchVideos = async (req, res, next) => {
     return next(sendError(404, "No matching videos found"));
   }
 
-  const filteredVideos = videos.map(({ video, title, lovedBy, grade }) => ({
+  const filteredVideos = videos.map(({ _id,video, title, lovedBy, grade }) => ({
+    id: _id,
     url: video.url, // Extract video URL
     title, // Extract title
     lovedByCount: lovedBy.length, // Count lovedBy array

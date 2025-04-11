@@ -5,8 +5,8 @@ const sendEmail = require("../utils/sendEmail");
 const transporter = nodemailer.createTransport({
   service: "gmail", // For Gmail, you can use another email service like Mailgun or SendGrid
   auth: {
-    user: "moh18.kh@gmail.com",
-    pass: "ergdecktsaiahbip",
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
