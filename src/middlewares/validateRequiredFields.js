@@ -11,7 +11,7 @@ const requiredFieldsByEntity = {
  */
 const validateRequiredFields = (entityType) => {
   return (req, res, next) => {
-    console.log(req.body);
+
     const requiredFields = requiredFieldsByEntity[entityType];
 
     // Check for missing fields
