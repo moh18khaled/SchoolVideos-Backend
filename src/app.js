@@ -65,7 +65,7 @@ app.use(
       "default-src": ["'self'"],
       "img-src": ["*"], // Allows images from any source
       "connect-src": ["'self'",  "http://localhost:5000",
-        "https://schoolvideos-backend-production.up.railway.app",
+        "https://schoolvideos-backend.onrender.com",
         "https://api.cloudinary.com",
       ], // Allow backend API requests
       "frame-src": ["'self'", "https://res.cloudinary.com", "https://www.youtube.com"], // Allow Cloudinary and YouTube in iframes
